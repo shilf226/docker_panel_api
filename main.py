@@ -6,9 +6,10 @@ import yaml
 from starlette.middleware.cors import CORSMiddleware
 from controller.DockerConntroller import DockerRouter
 from controller.DockerStore import DockerStore
-from tools.log_tool import Logs
 
-uvicorn_log = Logs()
+from tools.Client import Client
+
+uvicorn_log = Client().uvicorn_client()
 
 
 def read_yaml_file():
@@ -60,5 +61,5 @@ if __name__ == '__main__':
         host=data['project']['host'],
         port=data['project']['port'],
         reload=True,
-        log_config=uvicorn_log.uvicorn_log
+        log_config=uvicorn_log
     )

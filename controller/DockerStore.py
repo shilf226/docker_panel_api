@@ -2,20 +2,13 @@ import json
 import os
 import shutil
 import zipfile
-from pprint import pprint
-
 from fastapi import APIRouter, File, UploadFile
-from pydantic import BaseModel
-
-from controller.DockerConntroller import db_docker
-from tools.docker_tools import Docker
-from tools.mongodb import Mongo
-from tools.log_tool import Logs
+from tools.Client import Client
 
 DockerStore = APIRouter()
-client = Docker().docker_client()
-db_store = Mongo().mongo_store()
-log = Logs()
+client = Client().docker_client()
+db_store = Client().mongo_client()['store']
+log = Client().log_client()
 
 
 @DockerStore.post("/upload/container")

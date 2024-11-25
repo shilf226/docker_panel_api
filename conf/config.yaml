@@ -4,5 +4,7 @@ project:
   reload: true
 allow_origins:
   - 'http://localhost:5173'
-kubernetes:
-  namespace: 'platform'
+docker:
+  base_url: 'tcp://localhost:2375'
+mongo:
+  url: 'mongodb://mongo:mongo@localhost:27017/'

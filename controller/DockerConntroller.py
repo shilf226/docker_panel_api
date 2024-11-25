@@ -9,12 +9,12 @@ from fastapi import APIRouter, File
 import psutil
 from pydantic import BaseModel
 from starlette.websockets import WebSocket, WebSocketDisconnect
-from tools.mongodb import Mongo
-from tools.docker_tools import Docker
+
+from tools.Client import Client
 
 DockerRouter = APIRouter()
-client = Docker().docker_client()
-db_docker = Mongo().mongo_docker()
+client = Client().docker_client()
+db_docker = Client().mongo_client()['docker']
 
 
 @DockerRouter.get("/get/basicinfo")

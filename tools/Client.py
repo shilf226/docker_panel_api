@@ -1,8 +1,14 @@
 import logging
 
+import docker
+import pymongo
+import yaml
 
-class Logs:
+
+class Client:
     def __init__(self):
+        with open("conf/config.yaml", 'r') as file:
+            self.config = yaml.safe_load(file)
         logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
         self.logging = logging.getLogger(__name__)
         self.uvicorn_log = {
@@ -22,17 +28,14 @@ class Logs:
             }
         }
 
-    # 信息
-    def info(self, data):
-        return self.logging.info(data)
+    def docker_client(self):
+        return docker.DockerClient(base_url=self.config['docker']['base_url'])
 
-    # 调试
-    def debug(self, data):
-        return self.logging.debug(data)
+    def mongo_client(self):
+        return pymongo.MongoClient(self.config['mongo']['url'])["docker"]
 
-    # 警告
-    def warning(self, data):
-        return self.logging.warning(data)
+    def log_client(self):
+        return self.logging
 
-    def uvicorn_log(self):
+    def uvicorn_client(self):
         return self.uvicorn_log
