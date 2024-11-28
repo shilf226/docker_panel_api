@@ -221,6 +221,7 @@ async def add_container(item: Container_info):
     extra_hosts = {i['host']: i['ip'] for i in item.extra_hosts} if item.extra_hosts else None
 
     db_docker.insert_one(dict(item))
+    pprint(volumes)
     try:
         client.containers.create(
             name=item.hostname,
@@ -284,7 +285,7 @@ class ThreadStreamlog(threading.Thread):
     def __init__(self, websocket, container_id):
         threading.Thread.__init__(self)
         self.websocket = websocket
-        self.w = watch.Watch()
+        # self.w = watch.Watch()
         self.container = client.containers.get(container_id=container_id)
 
     def run(self):
